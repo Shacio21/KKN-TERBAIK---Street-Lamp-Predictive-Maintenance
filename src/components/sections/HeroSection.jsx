@@ -1,35 +1,53 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-import Scene from '../three/Scene';
-import StreetLampModel from '../three/StreetLampModel';
 import ParticleField from '../ui/ParticleField';
 import NeonButton from '../ui/NeonButton';
 import GradientText from '../ui/GradientText';
 import { heroData } from '../../data/mockData';
 
-function TypingText({ text, speed = 40 }) {
+// Komponen TypingText yang sudah diubah menjadi infinite loop (mengetik -> menghapus -> mengetik)
+function TypingText({ text, typingSpeed = 50, deletingSpeed = 30, delayBeforeDelete = 2000 }) {
   const [displayed, setDisplayed] = useState('');
-  const [done, setDone] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayed(text.slice(0, i + 1));
-        i++;
+    let timeout;
+    
+    if (isDeleting) {
+      // Proses menghapus teks
+      if (displayed.length > 0) {
+        timeout = setTimeout(() => {
+          setDisplayed(text.substring(0, displayed.length - 1));
+        }, deletingSpeed);
       } else {
-        setDone(true);
-        clearInterval(interval);
+        // Jika sudah habis terhapus, mulai mengetik lagi
+        setIsDeleting(false);
+        setIndex(0);
       }
-    }, speed);
-    return () => clearInterval(interval);
-  }, [text, speed]);
+    } else {
+      // Proses mengetik teks
+      if (index < text.length) {
+        timeout = setTimeout(() => {
+          setDisplayed(text.substring(0, index + 1));
+          setIndex(index + 1);
+        }, typingSpeed);
+      } else {
+        // Jika sudah selesai mengetik, tunggu sebentar lalu mulai menghapus
+        timeout = setTimeout(() => {
+          setIsDeleting(true);
+        }, delayBeforeDelete);
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayed, isDeleting, index, text, typingSpeed, deletingSpeed, delayBeforeDelete]);
 
   return (
     <span>
       {displayed}
-      <span className={`inline-block w-[2px] h-[1em] bg-neon-blue ml-1 align-middle ${done ? 'animate-[typing-cursor_1s_infinite]' : ''}`} />
+      <span className="inline-block w-[2px] h-[1em] bg-neon-blue ml-1 align-middle animate-[typing-cursor_1s_infinite]" />
     </span>
   );
 }
@@ -41,7 +59,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section id="hero" className="relative w-full h-screen overflow-hidden bg-bg-primary">
+    <section id="hero" className="relative w-full h-screen overflow-hidden bg-bg-primary flex flex-col items-center justify-center">
       {/* Background gradient mesh */}
       <div className="absolute inset-0 bg-gradient-mesh" />
 
@@ -56,17 +74,10 @@ export default function HeroSection() {
         style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.3) 0%, transparent 70%)' }}
       />
 
-      {/* 3D Scene */}
-      <div className="absolute inset-0 z-10">
-        <Scene>
-          <StreetLampModel rotate={true} floatEffect={true} />
-        </Scene>
-      </div>
-
-      {/* Content overlay */}
-      <div className="relative z-20 h-full flex flex-col items-center justify-center section-container pointer-events-none">
+      {/* Content overlay - 3D Scene removed */}
+      <div className="relative z-20 h-full w-full flex flex-col items-center justify-center section-container pointer-events-none">
         <motion.div
-          className="text-center max-w-4xl"
+          className="text-center max-w-4xl mx-auto flex flex-col items-center"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
@@ -85,7 +96,7 @@ export default function HeroSection() {
           </motion.div>
 
           {/* Main heading */}
-          <h1 className="heading-display text-4xl sm:text-5xl md:text-7xl mb-6">
+          <h1 className="heading-display text-4xl sm:text-5xl md:text-7xl mb-6 text-center">
             <GradientText from="#E2E8F0" to="#94A3B8" className="block mb-2">
               The Future of
             </GradientText>
@@ -94,14 +105,19 @@ export default function HeroSection() {
             </GradientText>
           </h1>
 
-          {/* Subheadline with typing effect */}
-          <div className="text-text-secondary text-base md:text-lg max-w-2xl mx-auto mb-10 font-light h-8">
-            <TypingText text={heroData.subheadline} speed={30} />
+          {/* Subheadline with infinite typing effect */}
+          <div className="text-text-secondary text-base md:text-lg max-w-2xl mx-auto mb-10 font-light h-8 text-center flex justify-center w-full">
+            <TypingText 
+              text={heroData.subheadline} 
+              typingSpeed={50} 
+              deletingSpeed={30} 
+              delayBeforeDelete={3000} 
+            />
           </div>
 
           {/* CTA Buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center pointer-events-auto"
+            className="flex flex-col sm:flex-row gap-4 justify-center pointer-events-auto w-full"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.2 }}

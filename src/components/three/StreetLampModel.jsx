@@ -20,26 +20,29 @@ export default function StreetLampModel({
   const clonedScene = useMemo(() => scene.clone(true), [scene]);
 
   useEffect(() => {
+    // Array untuk menampung mesh yang akan diratakan posisinya
+    const meshesToFlatten = [];
+
+    // TAHAP 1: Identifikasi dan tandai semua mesh berdasarkan hierarki aslinya
     clonedScene.traverse((child) => {
-      // Kita hanya memanipulasi posisi pada level Mesh
       if (child.isMesh) {
         child.castShadow = true;
         child.receiveShadow = true;
-        child.userData.originalPosition = child.position.clone();
         
         let currentObj = child;
-        let assignedPart = 'pole'; // Default jika tidak ada yang cocok
+        let assignedPart = 'pole'; 
 
-        // Looping untuk mengecek nama dirinya dan semua parent di atasnya
         while (currentObj) {
           const nameLower = currentObj.name.toLowerCase();
           const nameOrig = currentObj.name;
 
-          // Pengecekan nama asli seperti yang ada di Console
-          if (nameLower.includes('solarpanel_28')) {
+          if (nameLower.includes('cube025')) {
+            assignedPart = 'esp';
+            break;
+          } else if (nameLower.includes('solarpanel_28')) {
             assignedPart = 'solar';
             break;
-          } else if (nameLower.includes('batterybox_22')) {
+          } else if (nameLower.includes('batterybox_22') || nameLower.includes('batterbox_22')) {
             assignedPart = 'battery';
             break;
           } else if (nameOrig === '_2' || nameOrig.startsWith('_2_') || nameOrig.startsWith('_2')) {
@@ -47,16 +50,24 @@ export default function StreetLampModel({
             break;
           }
 
-          // Jika tidak cocok, naik cek grup parent di atasnya
           currentObj = currentObj.parent;
         }
-
-        // Karena kamu belum menambahkan ESP, saya menghapus tebakan fallback untuk ESP
-        // agar tidak menabrak objek tiang secara tidak sengaja.
         
         child.userData.partType = assignedPart;
+        meshesToFlatten.push(child);
       }
     });
+
+    // TAHAP 2: Keluarkan mesh dari parent-nya dan sejajarkan di root scene
+    meshesToFlatten.forEach((mesh) => {
+      // .attach akan memindah mesh ke root tanpa mengubah posisinya secara visual
+      if (mesh.parent && mesh.parent !== clonedScene) {
+        clonedScene.attach(mesh);
+      }
+      // Simpan posisi koordinat global yang sudah bersih
+      mesh.userData.originalPosition = mesh.position.clone();
+    });
+
   }, [clonedScene]);
 
   useFrame((state) => {
@@ -80,6 +91,7 @@ export default function StreetLampModel({
         else if (child.userData.partType === 'battery') offset = batteryOffset;
         else if (child.userData.partType === 'esp') offset = espOffset;
         
+        // Sekarang offset ditambahkan secara adil dalam koordinat global (World Space)
         child.position.set(
           child.userData.originalPosition.x + offset[0],
           child.userData.originalPosition.y + offset[1],
