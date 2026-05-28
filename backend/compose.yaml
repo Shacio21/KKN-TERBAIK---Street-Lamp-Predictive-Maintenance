@@ -1,0 +1,86 @@
+services:
+  postgres:
+    image: docker.io/timescale/timescaledb:latest-pg15
+    environment:
+      POSTGRES_DB: pju_monitoring
+      POSTGRES_USER: pju
+      POSTGRES_PASSWORD: pju
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pju -d pju_monitoring"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: docker.io/library/redis:7-alpine
+    ports:
+      - "6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mqtt:
+    image: docker.io/emqx/emqx:latest
+    ports:
+      - "1883:1883"
+      - "18083:18083"
+    healthcheck:
+      test: ["CMD-SHELL", "emqx_ctl status || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+
+  backend:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mqtt:
+        condition: service_started
+    volumes:
+      - ./uploads:/app/uploads
+      - ./firmware:/app/firmware
+      - ./ml_models:/app/ml_models
+      - ./backups:/app/backups
+      - ./reports:/app/reports
+    restart: unless-stopped
+
+  celery_worker:
+    build: .
+    env_file:
+      - .env
+    command: ["celery", "-A", "app.tasks.celery_app.celery_app", "worker", "--loglevel=INFO", "--concurrency=2"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./ml_models:/app/ml_models
+      - ./backups:/app/backups
+      - ./reports:/app/reports
+    restart: unless-stopped
+
+  celery_beat:
+    build: .
+    env_file:
+      - .env
+    command: ["celery", "-A", "app.tasks.celery_app.celery_app", "beat", "--loglevel=INFO"]
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
