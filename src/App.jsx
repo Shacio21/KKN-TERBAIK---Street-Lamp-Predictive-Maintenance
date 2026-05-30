@@ -1,33 +1,38 @@
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
-import HeroSection from './components/sections/HeroSection';
-import AboutSection from './components/sections/AboutSection';
-import ExplodedViewSection from './components/sections/ExplodedViewSection';
-import FeaturesSection from './components/sections/FeaturesSection';
-import IoTMonitoringSection from './components/sections/IoTMonitoringSection';
-import SensorAnalyticsSection from './components/sections/SensorAnalyticsSection';
-import EnergyStatsSection from './components/sections/EnergyStatsSection';
-import DashboardPreview from './components/sections/DashboardPreview';
-import CTASection from './components/sections/CTASection';
-import Loader from './components/ui/Loader';
+import { RouterProvider } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
+import router from './router';
+import useAuthStore from './store/authStore';
 
 export default function App() {
+  const checkAuth = useAuthStore((s) => s.checkAuth);
+
+  // On mount: try to restore session via refresh token cookie
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
   return (
-    <div className="bg-bg-primary min-h-screen text-text-primary">
-      <Loader />
-      <Navbar />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <ExplodedViewSection />
-        <FeaturesSection />
-        <IoTMonitoringSection />
-        <SensorAnalyticsSection />
-        <EnergyStatsSection />
-        <DashboardPreview />
-        <CTASection />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <RouterProvider router={router} />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: '#111827',
+            color: '#E2E8F0',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: '0.75rem',
+            fontSize: '0.875rem',
+          },
+          success: {
+            iconTheme: { primary: '#00FF88', secondary: '#111827' },
+          },
+          error: {
+            iconTheme: { primary: '#EF4444', secondary: '#111827' },
+          },
+        }}
+      />
+    </>
   );
 }
