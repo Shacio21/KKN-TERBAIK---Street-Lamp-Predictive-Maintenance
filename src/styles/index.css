@@ -1,13 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
-<<<<<<< HEAD
-=======
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
 @custom-variant dark (&:is(.dark *));
->>>>>>> 339d81857b26cf3a8216e3080908158ef27f3fd9
 
 /* ── TailwindCSS v4 Theme Configuration ─────────────────────── */
 @theme {
