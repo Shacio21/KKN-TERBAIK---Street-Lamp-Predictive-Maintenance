@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useGLTF, Center, Html } from '@react-three/drei';
 import * as THREE from 'three';
@@ -27,10 +27,10 @@ const cardPositions = {
 };
 
 const targetRotations = {
-  solar: new THREE.Euler(0, 200, 0), // 0 berarti menggunakan rotasi asli dari Blender
-  lamp: new THREE.Euler(THREE.MathUtils.degToRad(90), THREE.MathUtils.degToRad(90), 0), // Contoh: Diputar 90 derajat ke depan (berdiri/nunduk)
+  solar: new THREE.Euler(0, 200, 0), 
+  lamp: new THREE.Euler(THREE.MathUtils.degToRad(90), THREE.MathUtils.degToRad(90), 0), 
   battery: new THREE.Euler(0, 0, 0),
-  esp: new THREE.Euler(0, 0, THREE.MathUtils.degToRad(-90)), // Contoh: Diputar -90 derajat menyamping (tiduran)
+  esp: new THREE.Euler(0, 0, THREE.MathUtils.degToRad(-90)), 
 };
 
 export default function StreetLampModel({
@@ -40,13 +40,14 @@ export default function StreetLampModel({
 }) {
   const groupRef = useRef();
   const { scene } = useGLTF('/models/streetlamp.glb');
-  const clonedScene = useMemo(() => scene.clone(true), [scene]);
-
-  useEffect(() => {
-    clonedScene.updateMatrixWorld(true);
+  
+  // SEMUA LOGIKA MODIFIKASI DIPINDAHKAN KE DALAM USEMEMO
+  const clonedScene = useMemo(() => {
+    const clone = scene.clone(true);
+    clone.updateMatrixWorld(true);
     const meshesToFlatten = [];
 
-    clonedScene.traverse((child) => {
+    clone.traverse((child) => {
       if (child.isMesh) {
         child.castShadow = true;
         child.receiveShadow = true;
@@ -71,26 +72,21 @@ export default function StreetLampModel({
     });
 
     meshesToFlatten.forEach((mesh) => {
-      if (mesh.parent && mesh.parent !== clonedScene) {
-        clonedScene.attach(mesh);
+      if (mesh.parent && mesh.parent !== clone) {
+        clone.attach(mesh);
       }
       
-      // =======================================================
-      // FIX ROTASI MENGORBIT: Pindahkan Origin ke Tengah Geometri
-      // =======================================================
-      mesh.geometry = mesh.geometry.clone(); // Clone agar aman
+      // FIX ROTASI MENGORBIT
+      mesh.geometry = mesh.geometry.clone(); 
       mesh.geometry.computeBoundingBox();
       const offset = new THREE.Vector3();
       mesh.geometry.boundingBox.getCenter(offset);
       
-      // Geser titik pusat geometri ke 0,0,0
       mesh.geometry.translate(-offset.x, -offset.y, -offset.z);
       
-      // Kompensasi posisi mesh agar tidak berubah letaknya di layar
       offset.multiply(mesh.scale);
       offset.applyQuaternion(mesh.quaternion);
       mesh.position.add(offset);
-      // =======================================================
 
       mesh.userData.originalPosition = mesh.position.clone();
       mesh.userData.originalScale = mesh.scale.clone();
@@ -104,7 +100,8 @@ export default function StreetLampModel({
       }
     });
 
-  }, [clonedScene]);
+    return clone;
+  }, [scene]); // Hanya berjalan sekali saat scene dirender pertama kali
 
   useFrame((state, delta) => {
     if (!groupRef.current) return;
@@ -145,18 +142,16 @@ export default function StreetLampModel({
             targetScale.multiplyScalar(4);
             
             if (targetRotations[part]) {
-              // Menimpa rotasi asli dengan rotasi derajat yang kamu atur di atas
               targetRot.x = targetRotations[part].x;
               targetRot.y = targetRotations[part].y;
               targetRot.z = targetRotations[part].z;
             }
-            // =======================================================
-            // FIX ROTASI ESP32: Gunakan sumbu Z (atau X) agar horizontal
-            // =======================================================
-            if (part === 'lamp') {
-              targetRot.z += t * 0.5; // Ganti huruf 'z' menjadi 'x' jika putarannya masih aneh
+            
+            // FIX ROTASI: Mengembalikan part ke 'esp' bukan 'lamp'
+            if (part === 'esp') {
+              targetRot.z += t * 0.5; 
             } else {
-              targetRot.y += t * 0.5; // Komponen lain berputar di sumbu Y
+              targetRot.y += t * 0.5; 
             }
           }
         }
