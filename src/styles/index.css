@@ -589,6 +589,50 @@ body {
   --sidebar-ring: var(--color-neon-blue);
 }
 
+/* ── Dashboard Specific ────────────────────────────────────── */
+.glass-panel {
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-card);
+}
+
+.neon-glow-blue { box-shadow: 0 0 15px rgba(0, 212, 255, 0.2), 0 0 45px rgba(0, 212, 255, 0.05); }
+.neon-glow-green { box-shadow: 0 0 15px rgba(0, 255, 136, 0.2), 0 0 45px rgba(0, 255, 136, 0.05); }
+.neon-glow-red { box-shadow: 0 0 15px rgba(239, 68, 68, 0.2), 0 0 45px rgba(239, 68, 68, 0.05); }
+.neon-glow-amber { box-shadow: 0 0 15px rgba(245, 158, 11, 0.2), 0 0 45px rgba(245, 158, 11, 0.05); }
+.neon-glow-purple { box-shadow: 0 0 15px rgba(139, 92, 246, 0.2), 0 0 45px rgba(139, 92, 246, 0.05); }
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
+
+@keyframes value-flash {
+  0% { color: inherit; }
+  50% { filter: brightness(1.5); }
+  100% { color: inherit; }
+}
+.animate-value-flash { animation: value-flash 0.4s ease-out; }
+
+/* Recharts custom dark theme */
+.recharts-custom .recharts-cartesian-grid line { stroke: rgba(255,255,255,0.05); }
+.recharts-custom .recharts-text { fill: #94A3B8; font-size: 11px; }
+.recharts-custom .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: rgba(10, 15, 30, 0.95) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+}
+
+/* Map marker pulse */
+@keyframes map-pulse {
+  0% { r: 4; opacity: 1; }
+  100% { r: 12; opacity: 0; }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

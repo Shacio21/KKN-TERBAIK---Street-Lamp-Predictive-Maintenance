@@ -2,7 +2,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Map, Lightbulb, MapPin, Activity, Zap,
   Wrench, FileText, Users, ScrollText, Settings, X, Lamp,
-  ChevronRight,
+  ChevronRight, BrainCircuit, Server, TrendingUp, Radio,
+  BarChart3, ShieldAlert, SlidersHorizontal,
 } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 import { Button } from "@/components/ui/button";
@@ -19,9 +20,19 @@ const mainMenu = [
 ];
 
 const adminMenu = [
-  { label: 'Manajemen User',  icon: Users,           to: '/dashboard/admin/users' },
+  { label: 'User Management', icon: Users,           to: '/dashboard/admin/users' },
   { label: 'Audit Log',       icon: ScrollText,      to: '/dashboard/admin/audit-log' },
-  { label: 'Pengaturan',      icon: Settings,        to: '/dashboard/admin/settings' },
+  { label: 'Settings',        icon: Settings,        to: '/dashboard/admin/settings' },
+];
+
+const pmMenu = [
+  { label: 'PM Overview',     icon: BrainCircuit,       to: '/dashboard/pm',             end: true },
+  { label: 'Assets',          icon: Server,             to: '/dashboard/pm/assets' },
+  { label: 'Predictions',     icon: TrendingUp,         to: '/dashboard/pm/predictions' },
+  { label: 'RT Monitoring',   icon: Radio,              to: '/dashboard/pm/monitoring' },
+  { label: 'Analytics',       icon: BarChart3,          to: '/dashboard/pm/analytics' },
+  { label: 'Alerts',          icon: ShieldAlert,        to: '/dashboard/pm/alerts' },
+  { label: 'PM Settings',     icon: SlidersHorizontal,  to: '/dashboard/pm/settings' },
 ];
 
 export default function Sidebar({ isOpen, onClose }) {
@@ -78,6 +89,17 @@ export default function Sidebar({ isOpen, onClose }) {
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
           {mainMenu.map((item) => (
+            <NavLink key={item.to} to={item.to} end={item.end} className={linkClass} onClick={onClose}>
+              <item.icon className="w-4 h-4 shrink-0" />
+              <span>{item.label}</span>
+            </NavLink>
+          ))}
+
+          {/* Predictive Maintenance section */}
+          <div className="pt-3 pb-1 px-3">
+            <p className="text-[10px] font-semibold text-neon-blue/60 uppercase tracking-wider">Predictive Maintenance</p>
+          </div>
+          {pmMenu.map((item) => (
             <NavLink key={item.to} to={item.to} end={item.end} className={linkClass} onClick={onClose}>
               <item.icon className="w-4 h-4 shrink-0" />
               <span>{item.label}</span>

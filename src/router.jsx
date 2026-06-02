@@ -32,6 +32,15 @@ const TicketDetailPage = lazy(() => import('./pages/tickets/TicketDetailPage'));
 const ReportsPage      = lazy(() => import('./pages/reports/ReportsPage'));
 const ProfilePage      = lazy(() => import('./pages/profile/ProfilePage'));
 
+// ── Predictive Maintenance Pages ───────────────────────────
+const PMOverview    = lazy(() => import('./pages/predictive/PMOverview'));
+const PMAssets      = lazy(() => import('./pages/predictive/PMAssets'));
+const PMPredictions = lazy(() => import('./pages/predictive/PMPredictions'));
+const PMMonitoring  = lazy(() => import('./pages/predictive/PMMonitoring'));
+const PMAnalytics   = lazy(() => import('./pages/predictive/PMAnalytics'));
+const PMAlerts      = lazy(() => import('./pages/predictive/PMAlerts'));
+const PMSettings    = lazy(() => import('./pages/predictive/PMSettings'));
+
 // ── Admin Pages ────────────────────────────────────────────
 const UserManagementPage = lazy(() => import('./pages/admin/UserManagementPage'));
 const AuditLogPage       = lazy(() => import('./pages/admin/AuditLogPage'));
@@ -134,6 +143,14 @@ const router = createBrowserRouter([
       { path: 'tickets/:id', element: <SuspenseWrapper><TicketDetailPage /></SuspenseWrapper> },
       { path: 'reports', element: <SuspenseWrapper><ReportsPage /></SuspenseWrapper> },
       { path: 'profile', element: <SuspenseWrapper><ProfilePage /></SuspenseWrapper> },
+      // Predictive Maintenance
+      { path: 'pm', element: <SuspenseWrapper><PMOverview /></SuspenseWrapper> },
+      { path: 'pm/assets', element: <SuspenseWrapper><PMAssets /></SuspenseWrapper> },
+      { path: 'pm/predictions', element: <SuspenseWrapper><PMPredictions /></SuspenseWrapper> },
+      { path: 'pm/monitoring', element: <SuspenseWrapper><PMMonitoring /></SuspenseWrapper> },
+      { path: 'pm/analytics', element: <SuspenseWrapper><PMAnalytics /></SuspenseWrapper> },
+      { path: 'pm/alerts', element: <SuspenseWrapper><PMAlerts /></SuspenseWrapper> },
+      { path: 'pm/settings', element: <SuspenseWrapper><PMSettings /></SuspenseWrapper> },
       // Admin only
       {
         path: 'admin/users',
