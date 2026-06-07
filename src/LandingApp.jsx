@@ -18,7 +18,7 @@ export default function LandingApp() {
   const dashboardData = useDashboardData();
 
   return (
-    <div className="bg-bg-primary min-h-screen text-text-primary">
+    <div className="bg-white min-h-screen text-[#0F172A]">
       <Loader />
       <Navbar />
       <main>

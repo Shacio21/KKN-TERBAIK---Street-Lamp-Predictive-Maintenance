@@ -23,15 +23,15 @@ export default function ExplodedViewSection() {
     <section
       ref={sectionRef}
       id="technology"
-      className="relative bg-bg-primary"
+      className="relative bg-white"
       style={{ height: '200vh' }} // Cukup panjang agar efeknya terasa, tapi tidak melelahkan
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center">
         
         {/* Judul yang hanya muncul saat model pecah */}
         <div className={`absolute top-12 text-center transition-opacity duration-700 z-20 pointer-events-none ${isExploded ? 'opacity-100' : 'opacity-0'}`}>
-          <h2 className="heading-section text-2xl md:text-4xl text-text-primary">
-            Component <span className="text-neon-blue">Breakdown</span>
+          <h2 className="heading-section text-2xl md:text-4xl text-[#0F172A]">
+            Component <span className="text-[#2563EB]">Breakdown</span>
           </h2>
         </div>
 

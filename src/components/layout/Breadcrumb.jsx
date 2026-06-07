@@ -41,7 +41,7 @@ export default function Breadcrumb() {
         <span key={crumb.path} className="flex items-center gap-1">
           <ChevronRight className="w-3.5 h-3.5 text-text-muted" />
           {crumb.isLast ? (
-            <span className="font-medium text-neon-blue">
+            <span className="font-medium text-[#2563EB]">
               {crumb.isId ? 'Detail' : crumb.label}
             </span>
           ) : (

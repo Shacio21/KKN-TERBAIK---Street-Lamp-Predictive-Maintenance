@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 
 function getColor(value) {
-  if (value >= 80) return '#00FF88';  // neon-green
-  if (value >= 50) return '#F59E0B';  // neon-amber
-  return '#EF4444';                   // neon-red
+  if (value >= 80) return '#10B981';  // success green
+  if (value >= 50) return '#F59E0B';  // warning amber
+  return '#EF4444';                   // danger red
 }
 
 export default function CircularProgress({ value, size = 100, strokeWidth = 8, label, showValue = true, color }) {
@@ -22,7 +22,7 @@ export default function CircularProgress({ value, size = 100, strokeWidth = 8, l
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="rgba(255,255,255,0.06)"
+            stroke="#E2E8F0"
             strokeWidth={strokeWidth}
           />
           {/* Progress */}
@@ -38,9 +38,6 @@ export default function CircularProgress({ value, size = 100, strokeWidth = 8, l
             initial={{ strokeDashoffset: circumference }}
             animate={{ strokeDashoffset: offset }}
             transition={{ duration: 1.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-            style={{
-              filter: `drop-shadow(0 0 6px ${resolvedColor}40)`,
-            }}
           />
         </svg>
 

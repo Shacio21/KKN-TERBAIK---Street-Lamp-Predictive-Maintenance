@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { Leaf, TreePine, DollarSign, BatteryCharging } from 'lucide-react';
 import GlassCard from '../ui/GlassCard';
-import GradientText from '../ui/GradientText';
 import AnimatedCounter from '../ui/AnimatedCounter';
 import { energyStats, energyComparison } from '../../data/mockData';
 
@@ -15,7 +14,7 @@ function CircularProgress({ value, max, color, size = 120, strokeWidth = 8, labe
         <svg className="w-full h-full -rotate-90" viewBox={`0 0 ${size} ${size}`}>
           <circle
             cx={size / 2} cy={size / 2} r={radius}
-            fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth={strokeWidth}
+            fill="none" stroke="#E2E8F0" strokeWidth={strokeWidth}
           />
           <motion.circle
             cx={size / 2} cy={size / 2} r={radius}
@@ -26,7 +25,6 @@ function CircularProgress({ value, max, color, size = 120, strokeWidth = 8, labe
             whileInView={{ strokeDashoffset: circumference - (circumference * value) / max }}
             viewport={{ once: true }}
             transition={{ duration: 1.5, ease: 'easeOut' }}
-            style={{ filter: `drop-shadow(0 0 6px ${color}60)` }}
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -36,7 +34,7 @@ function CircularProgress({ value, max, color, size = 120, strokeWidth = 8, labe
           </span>
         </div>
       </div>
-      <span className="text-text-secondary text-xs mt-2 text-center">{label}</span>
+      <span className="text-[#475569] text-xs mt-2 text-center">{label}</span>
     </div>
   );
 }
@@ -45,39 +43,38 @@ function ComparisonBar({ label, before, after, max, unit }) {
   return (
     <div className="mb-4">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-text-secondary text-xs">{label}</span>
-        <span className="text-text-muted text-[10px]">{unit}</span>
+        <span className="text-[#475569] text-xs">{label}</span>
+        <span className="text-[#94A3B8] text-[10px]">{unit}</span>
       </div>
       <div className="space-y-2">
         {/* Before */}
         <div className="flex items-center gap-3">
-          <span className="text-[10px] text-text-muted w-16">Traditional</span>
-          <div className="flex-1 h-3 rounded-full bg-surface overflow-hidden">
+          <span className="text-[10px] text-[#94A3B8] w-16">Traditional</span>
+          <div className="flex-1 h-3 rounded-full bg-[#F1F5F9] overflow-hidden">
             <motion.div
-              className="h-full rounded-full"
-              style={{ background: 'rgba(239,68,68,0.5)' }}
+              className="h-full rounded-full bg-[#FCA5A5]"
               initial={{ width: 0 }}
               whileInView={{ width: `${(before / max) * 100}%` }}
               viewport={{ once: true }}
               transition={{ duration: 1, ease: 'easeOut' }}
             />
           </div>
-          <span className="text-[10px] text-text-muted w-10 text-right">{before}</span>
+          <span className="text-[10px] text-[#94A3B8] w-10 text-right">{before}</span>
         </div>
         {/* After */}
         <div className="flex items-center gap-3">
-          <span className="text-[10px] text-neon-green w-16">Smart Solar</span>
-          <div className="flex-1 h-3 rounded-full bg-surface overflow-hidden">
+          <span className="text-[10px] text-[#10B981] w-16 font-medium">Smart Solar</span>
+          <div className="flex-1 h-3 rounded-full bg-[#F1F5F9] overflow-hidden">
             <motion.div
               className="h-full rounded-full"
-              style={{ background: 'linear-gradient(90deg, #00FF88, #00D4FF)' }}
+              style={{ background: 'linear-gradient(90deg, #10B981, #2563EB)' }}
               initial={{ width: 0 }}
               whileInView={{ width: `${(after / max) * 100}%` }}
               viewport={{ once: true }}
               transition={{ duration: 1, ease: 'easeOut', delay: 0.3 }}
             />
           </div>
-          <span className="text-[10px] text-neon-green w-10 text-right">{after}</span>
+          <span className="text-[10px] text-[#10B981] w-10 text-right font-medium">{after}</span>
         </div>
       </div>
     </div>
@@ -86,13 +83,7 @@ function ComparisonBar({ label, before, after, max, unit }) {
 
 export default function EnergyStatsSection() {
   return (
-    <section className="relative section-padding bg-bg-primary overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute top-1/3 left-0 w-72 h-72 rounded-full opacity-10 blur-3xl"
-          style={{ background: 'radial-gradient(circle, rgba(0,255,136,0.4) 0%, transparent 70%)' }}
-        />
-      </div>
-
+    <section className="relative section-padding bg-white overflow-hidden">
       <div className="section-container relative z-10">
         {/* Header */}
         <motion.div
@@ -102,17 +93,15 @@ export default function EnergyStatsSection() {
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.7 }}
         >
-          <span className="text-neon-green text-xs font-semibold tracking-[0.3em] uppercase mb-4 block font-[family-name:var(--font-display)]">
+          <span className="text-[#10B981] text-xs font-semibold tracking-[0.2em] uppercase mb-4 block">
             Energy Efficiency
           </span>
-          <h2 className="heading-section text-3xl md:text-5xl mb-6">
-            <GradientText from="#00FF88" to="#00D4FF">
-              Sustainable Performance
-            </GradientText>
+          <h2 className="heading-section text-3xl md:text-5xl mb-6 text-[#0F172A]">
+            Energy Efficiency Report
           </h2>
-          <p className="text-text-secondary text-base md:text-lg">
-            Track energy generation, consumption, and environmental impact in real-time.
-            Every watt optimized, every emission eliminated.
+          <p className="text-[#475569] text-base md:text-lg">
+            Track energy generation, consumption, and environmental impact.
+            Every watt optimized, every emission reduced.
           </p>
         </motion.div>
 
@@ -125,7 +114,7 @@ export default function EnergyStatsSection() {
             transition={{ duration: 0.6 }}
           >
             <GlassCard className="p-6 md:p-8">
-              <h3 className="heading-section text-lg text-text-primary mb-8">
+              <h3 className="font-semibold text-lg text-[#0F172A] mb-8">
                 Daily Performance
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -139,32 +128,32 @@ export default function EnergyStatsSection() {
                 <CircularProgress
                   value={energyStats.dailyConsumed}
                   max={600}
-                  color="#00D4FF"
+                  color="#2563EB"
                   label="Consumed (Wh)"
                   icon={DollarSign}
                 />
                 <CircularProgress
                   value={energyStats.co2Saved}
                   max={20}
-                  color="#00FF88"
+                  color="#10B981"
                   label="CO₂ Saved (kg)"
                   icon={Leaf}
                 />
                 <CircularProgress
                   value={energyStats.treesEquivalent}
                   max={15}
-                  color="#8B5CF6"
+                  color="#7C3AED"
                   label="Trees Equiv."
                   icon={TreePine}
                 />
               </div>
 
               {/* Big stat */}
-              <div className="mt-8 pt-6 border-t border-border text-center">
-                <div className="heading-display text-4xl md:text-5xl text-neon-green mb-2">
+              <div className="mt-8 pt-6 border-t border-[#E2E8F0] text-center">
+                <div className="heading-display text-4xl md:text-5xl text-[#10B981] mb-2">
                   <AnimatedCounter target={energyStats.efficiency} suffix="%" duration={2} />
                 </div>
-                <span className="text-text-secondary text-sm">System Efficiency Rating</span>
+                <span className="text-[#475569] text-sm">System Efficiency Rating</span>
               </div>
             </GlassCard>
           </motion.div>
@@ -177,7 +166,7 @@ export default function EnergyStatsSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <GlassCard className="p-6 md:p-8 h-full">
-              <h3 className="heading-section text-lg text-text-primary mb-8">
+              <h3 className="font-semibold text-lg text-[#0F172A] mb-8">
                 Impact Comparison
               </h3>
 
@@ -204,12 +193,12 @@ export default function EnergyStatsSection() {
               />
 
               {/* Savings highlight */}
-              <div className="mt-8 p-4 rounded-xl neon-border-green text-center">
-                <span className="text-text-secondary text-xs block mb-1">Total Cost Savings</span>
-                <div className="heading-display text-3xl text-neon-green">
+              <div className="mt-8 p-4 rounded-xl border border-[#A7F3D0] bg-[#F0FDF4] text-center">
+                <span className="text-[#475569] text-xs block mb-1">Total Cost Savings</span>
+                <div className="heading-display text-3xl text-[#10B981]">
                   <AnimatedCounter target={energyStats.costSaving} suffix="%" duration={2} />
                 </div>
-                <span className="text-text-muted text-[10px]">vs traditional street lamps</span>
+                <span className="text-[#94A3B8] text-[10px]">vs traditional street lamps</span>
               </div>
             </GlassCard>
           </motion.div>

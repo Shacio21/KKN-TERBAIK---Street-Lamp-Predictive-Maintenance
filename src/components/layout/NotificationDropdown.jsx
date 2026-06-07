@@ -15,13 +15,13 @@ const TYPE_ICON = {
 };
 
 const TYPE_COLOR = {
-  alert:            'text-neon-red',
-  approval_request: 'text-neon-amber',
-  account_approved: 'text-neon-green',
-  lamp_fault:       'text-neon-red',
-  maintenance_due:  'text-neon-amber',
-  battery_low:      'text-neon-amber',
-  default:          'text-neon-blue',
+  alert:            'text-[#EF4444]',
+  approval_request: 'text-[#F59E0B]',
+  account_approved: 'text-[#10B981]',
+  lamp_fault:       'text-[#EF4444]',
+  maintenance_due:  'text-[#F59E0B]',
+  battery_low:      'text-[#F59E0B]',
+  default:          'text-[#2563EB]',
 };
 
 function timeAgo(dateStr) {
@@ -92,11 +92,11 @@ export default function NotificationDropdown() {
         variant="ghost"
         size="icon"
         onClick={() => setOpen((o) => !o)}
-        className="relative text-text-secondary hover:text-text-primary hover:bg-surface-hover"
+        className="relative text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9]"
       >
         <Bell className="w-5 h-5" />
         {unreadCount > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-neon-red rounded-full text-white text-[10px] font-bold flex items-center justify-center px-0.5">
+          <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-[#EF4444] rounded-full text-white text-[10px] font-bold flex items-center justify-center px-0.5">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
@@ -110,17 +110,17 @@ export default function NotificationDropdown() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -8 }}
             transition={{ duration: 0.15 }}
-            className="absolute right-0 top-full mt-2 w-80 glass-strong rounded-[var(--radius-card)] shadow-[var(--shadow-glass)] z-50 overflow-hidden"
+            className="absolute right-0 top-full mt-2 w-80 bg-white rounded-xl border border-[#E2E8F0] shadow-lg z-50 overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-              <h3 className="text-sm font-semibold text-text-primary">Notifikasi</h3>
+            <div className="flex items-center justify-between px-4 py-3 border-b border-[#E2E8F0]">
+              <h3 className="text-sm font-semibold text-[#0F172A]">Notifikasi</h3>
               {unreadCount > 0 && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={markAllRead}
-                  className="flex items-center gap-1 text-xs text-neon-blue hover:text-neon-blue hover:bg-neon-blue/10 h-8 px-2"
+                  className="flex items-center gap-1 text-xs text-[#2563EB] hover:text-[#2563EB] hover:bg-[#EFF6FF] h-8 px-2"
                 >
                   <CheckCheck className="w-3.5 h-3.5" />
                   Baca semua
@@ -129,9 +129,9 @@ export default function NotificationDropdown() {
             </div>
 
             {/* List */}
-            <div className="max-h-80 overflow-y-auto divide-y divide-border/50">
+            <div className="max-h-80 overflow-y-auto divide-y divide-[#F1F5F9]">
               {notifications.length === 0 ? (
-                <div className="py-10 text-center text-text-muted text-sm">
+                <div className="py-10 text-center text-[#94A3B8] text-sm">
                   <Bell className="w-8 h-8 mx-auto mb-2 opacity-30" />
                   Tidak ada notifikasi
                 </div>
@@ -143,21 +143,21 @@ export default function NotificationDropdown() {
                     <div
                       key={n.id}
                       onClick={() => !n.is_read && markRead(n.id)}
-                      className={`flex gap-3 px-4 py-3 cursor-pointer transition-colors hover:bg-surface-hover
-                        ${!n.is_read ? 'border-l-2 border-neon-blue bg-neon-blue/3' : ''}`}
+                      className={`flex gap-3 px-4 py-3 cursor-pointer transition-colors hover:bg-[#F8FAFC]
+                        ${!n.is_read ? 'border-l-2 border-[#2563EB] bg-[#EFF6FF]/50' : ''}`}
                     >
                       <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${color}`} />
                       <div className="flex-1 min-w-0">
-                        <p className={`text-sm font-medium ${n.is_read ? 'text-text-secondary' : 'text-text-primary'} truncate`}>
+                        <p className={`text-sm font-medium ${n.is_read ? 'text-[#475569]' : 'text-[#0F172A]'} truncate`}>
                           {n.title}
                         </p>
                         {n.message && (
-                          <p className="text-xs text-text-muted mt-0.5 line-clamp-2">{n.message}</p>
+                          <p className="text-xs text-[#64748B] mt-0.5 line-clamp-2">{n.message}</p>
                         )}
-                        <p className="text-[10px] text-text-muted mt-1">{timeAgo(n.created_at)}</p>
+                        <p className="text-[10px] text-[#94A3B8] mt-1">{timeAgo(n.created_at)}</p>
                       </div>
                       {!n.is_read && (
-                        <div className="w-2 h-2 rounded-full bg-neon-blue shrink-0 mt-1.5" />
+                        <div className="w-2 h-2 rounded-full bg-[#2563EB] shrink-0 mt-1.5" />
                       )}
                     </div>
                   );

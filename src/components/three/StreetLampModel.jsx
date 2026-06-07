@@ -28,7 +28,7 @@ const cardPositions = {
 
 const targetRotations = {
   solar: new THREE.Euler(0, 200, 0), 
-  lamp: new THREE.Euler(THREE.MathUtils.degToRad(90), THREE.MathUtils.degToRad(90), 0), 
+  lamp: new THREE.Euler(0,0, THREE.MathUtils.degToRad(-240)), 
   battery: new THREE.Euler(0, 0, 0),
   esp: new THREE.Euler(0, 0, THREE.MathUtils.degToRad(-90)), 
 };
@@ -149,7 +149,7 @@ export default function StreetLampModel({
             
             // FIX ROTASI: Mengembalikan part ke 'esp' bukan 'lamp'
             if (part === 'esp') {
-              targetRot.z += t * 0.5; 
+              targetRot.y += t * 0.5; 
             } else {
               targetRot.y += t * 0.5; 
             }

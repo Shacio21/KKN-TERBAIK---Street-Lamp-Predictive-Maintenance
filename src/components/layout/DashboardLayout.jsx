@@ -48,19 +48,19 @@ export default function DashboardLayout() {
   };
 
   return (
-    <div className="flex h-screen bg-bg-primary overflow-hidden">
+    <div className="flex h-screen bg-[#F8FAFC] overflow-hidden">
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top bar */}
-        <header className="glass-strong border-b border-border px-4 py-3 flex items-center gap-3 shrink-0 z-30">
+        <header className="bg-white border-b border-[#E2E8F0] px-4 py-3 flex items-center gap-3 shrink-0 z-30">
           {/* Hamburger (mobile + desktop toggle) */}
           <Button
             variant="ghost" size="icon"
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden text-text-secondary hover:text-text-primary hover:bg-surface-hover"
+            className="lg:hidden text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9]"
           >
             <Menu className="w-5 h-5" />
           </Button>
@@ -69,11 +69,11 @@ export default function DashboardLayout() {
           <Button
             variant="outline"
             onClick={() => setSearchOpen(true)}
-            className="hidden sm:flex items-center justify-start gap-2 flex-1 max-w-sm px-3 py-2 text-text-muted text-sm font-normal bg-surface hover:bg-surface"
+            className="hidden sm:flex items-center justify-start gap-2 flex-1 max-w-sm px-3 py-2 text-[#94A3B8] text-sm font-normal bg-[#F8FAFC] hover:bg-[#F1F5F9] border-[#E2E8F0]"
           >
             <Search className="w-4 h-4" />
             <span>Cari lampu, tempat, tiket...</span>
-            <kbd className="ml-auto text-[10px] bg-surface-active px-1.5 py-0.5 rounded font-mono text-text-primary">Ctrl K</kbd>
+            <kbd className="ml-auto text-[10px] bg-[#E2E8F0] px-1.5 py-0.5 rounded font-mono text-[#64748B]">Ctrl K</kbd>
           </Button>
 
           <div className="flex-1 sm:flex-none" />
@@ -86,16 +86,16 @@ export default function DashboardLayout() {
             <Button
               variant="ghost"
               onClick={() => setUserMenuOpen((o) => !o)}
-              className="flex items-center gap-2 px-2 py-1.5 h-auto hover:bg-surface-hover"
+              className="flex items-center gap-2 px-2 py-1.5 h-auto hover:bg-[#F1F5F9]"
             >
-              <div className="w-8 h-8 rounded-full bg-neon-purple/20 border border-neon-purple/30 flex items-center justify-center text-neon-purple text-sm font-bold shrink-0">
+              <div className="w-8 h-8 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] flex items-center justify-center text-[#2563EB] text-sm font-bold shrink-0">
                 {user?.name?.charAt(0)?.toUpperCase() || 'U'}
               </div>
               <div className="hidden sm:block text-left">
-                <p className="text-sm font-medium text-text-primary leading-tight">{user?.name || 'User'}</p>
-                <p className="text-xs text-text-muted capitalize">{user?.role || 'operator'}</p>
+                <p className="text-sm font-medium text-[#0F172A] leading-tight">{user?.name || 'User'}</p>
+                <p className="text-xs text-[#64748B] capitalize">{user?.role || 'operator'}</p>
               </div>
-              <ChevronDown className={`w-4 h-4 text-text-muted transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`w-4 h-4 text-[#94A3B8] transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
             </Button>
 
             <AnimatePresence>
@@ -105,21 +105,21 @@ export default function DashboardLayout() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -8 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute right-0 top-full mt-2 w-48 glass-strong rounded-[var(--radius-card)] shadow-[var(--shadow-glass)] z-50 overflow-hidden py-1"
+                  className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl border border-[#E2E8F0] shadow-lg z-50 overflow-hidden py-1"
                 >
                   <Link
                     to="/dashboard/profile"
                     onClick={() => setUserMenuOpen(false)}
-                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-text-secondary hover:text-text-primary hover:bg-surface-hover transition-colors"
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors"
                   >
                     <User className="w-4 h-4" />
                     Profil Saya
                   </Link>
-                  <div className="border-t border-border/50 my-1" />
+                  <div className="border-t border-[#E2E8F0] my-1" />
                   <Button
                     variant="ghost"
                     onClick={handleLogout}
-                    className="w-full flex items-center justify-start gap-2 px-4 py-2.5 text-sm text-neon-red hover:bg-neon-red/10 hover:text-neon-red rounded-none"
+                    className="w-full flex items-center justify-start gap-2 px-4 py-2.5 text-sm text-[#EF4444] hover:bg-[#FEF2F2] hover:text-[#EF4444] rounded-none"
                   >
                     <LogOut className="w-4 h-4" />
                     Logout

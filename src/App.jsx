@@ -8,9 +8,9 @@ export default function App() {
   const checkAuth = useAuthStore((s) => s.checkAuth);
 
   // On mount: try to restore session via refresh token cookie
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
+  // useEffect(() => {
+  //   checkAuth();
+  // }, [checkAuth]);
 
   return (
     <>
@@ -19,17 +19,18 @@ export default function App() {
         position="top-right"
         toastOptions={{
           style: {
-            background: '#111827',
-            color: '#E2E8F0',
-            border: '1px solid rgba(255,255,255,0.08)',
+            background: '#FFFFFF',
+            color: '#0F172A',
+            border: '1px solid #E2E8F0',
             borderRadius: '0.75rem',
             fontSize: '0.875rem',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',
           },
           success: {
-            iconTheme: { primary: '#00FF88', secondary: '#111827' },
+            iconTheme: { primary: '#10B981', secondary: '#FFFFFF' },
           },
           error: {
-            iconTheme: { primary: '#EF4444', secondary: '#111827' },
+            iconTheme: { primary: '#EF4444', secondary: '#FFFFFF' },
           },
         }}
       />

@@ -2,12 +2,9 @@ import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Activity, Database, LogIn, Radio, Send, ShieldCheck } from 'lucide-react';
 import GlassCard from '../ui/GlassCard';
-import GradientText from '../ui/GradientText';
 import { fetchKpi, fetchLamps, login, sendTelemetry } from '../../services/api';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-const inputClass = 'w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary outline-none transition-colors focus:border-neon-blue';
 
 export default function OperationsPanel() {
   const [email, setEmail] = useState('admin@pju.local');
@@ -88,7 +85,7 @@ export default function OperationsPanel() {
   }
 
   return (
-    <section id="operations" className="relative section-padding bg-bg-primary overflow-hidden">
+    <section id="operations" className="relative section-padding bg-white overflow-hidden">
       <div className="section-container relative z-10">
         <motion.div
           className="text-center max-w-3xl mx-auto mb-12"
@@ -97,65 +94,63 @@ export default function OperationsPanel() {
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.7 }}
         >
-          <span className="text-neon-green text-xs font-semibold tracking-[0.3em] uppercase mb-4 block font-[family-name:var(--font-display)]">
+          <span className="text-[#10B981] text-xs font-semibold tracking-[0.2em] uppercase mb-4 block">
             Operations
           </span>
-          <h2 className="heading-section text-3xl md:text-5xl mb-6">
-            <GradientText from="#00FF88" to="#00D4FF">
-              Backend Control Surface
-            </GradientText>
+          <h2 className="heading-section text-3xl md:text-5xl mb-6 text-[#0F172A]">
+            System Operations
           </h2>
-          <p className="text-text-secondary text-base md:text-lg">
-            Authenticate to the FastAPI backend, inspect protected monitoring data, and send a telemetry sample to the IoT ingestion pipeline.
+          <p className="text-[#475569] text-base md:text-lg">
+            Authenticate to the backend, inspect monitoring data, and send telemetry samples to the IoT ingestion pipeline.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <GlassCard className="p-5 md:p-6">
             <div className="flex items-center gap-2 mb-5">
-              <LogIn className="w-5 h-5 text-neon-blue" />
-              <h3 className="heading-section text-lg text-text-primary">API Login</h3>
+              <LogIn className="w-5 h-5 text-[#2563EB]" />
+              <h3 className="font-semibold text-lg text-[#0F172A]">API Login</h3>
             </div>
             <form className="space-y-3" onSubmit={handleLogin}>
               <Input className="w-full" value={email} onChange={(event) => setEmail(event.target.value)} type="email" />
               <Input className="w-full" value={password} onChange={(event) => setPassword(event.target.value)} type="password" />
-              <Button variant="outline" className="w-full text-neon-blue border-neon-blue/40 hover:bg-neon-blue/10" disabled={busy}>
+              <Button variant="outline" className="w-full text-[#2563EB] border-[#2563EB]/40 hover:bg-[#EFF6FF]" disabled={busy}>
                 {busy ? 'Processing...' : 'Login'}
               </Button>
             </form>
-            <div className="mt-4 flex items-center gap-2 text-xs text-text-muted">
-              <ShieldCheck className="w-4 h-4" style={{ color: token ? '#00FF88' : '#F59E0B' }} />
+            <div className="mt-4 flex items-center gap-2 text-xs text-[#64748B]">
+              <ShieldCheck className="w-4 h-4" style={{ color: token ? '#10B981' : '#F59E0B' }} />
               {token ? 'Access token tersimpan' : 'Belum login'}
             </div>
           </GlassCard>
 
           <GlassCard className="p-5 md:p-6">
             <div className="flex items-center gap-2 mb-5">
-              <Database className="w-5 h-5 text-neon-green" />
-              <h3 className="heading-section text-lg text-text-primary">Protected Data</h3>
+              <Database className="w-5 h-5 text-[#10B981]" />
+              <h3 className="font-semibold text-lg text-[#0F172A]">Protected Data</h3>
             </div>
-            <Button variant="outline" className="mb-4 w-full text-neon-green border-neon-green/40 hover:bg-neon-green/10" onClick={loadBackendData} disabled={busy}>
+            <Button variant="outline" className="mb-4 w-full text-[#10B981] border-[#10B981]/40 hover:bg-[#F0FDF4]" onClick={loadBackendData} disabled={busy}>
               Refresh KPI & Lamps
             </Button>
             <div className="grid grid-cols-2 gap-3 text-sm">
-              <Metric label="Total Lamps" value={kpi?.total_lamps ?? '-'} icon={Activity} color="#00D4FF" />
-              <Metric label="Online" value={kpi?.online_lamps ?? '-'} icon={Radio} color="#00FF88" />
+              <Metric label="Total Lamps" value={kpi?.total_lamps ?? '-'} icon={Activity} color="#2563EB" />
+              <Metric label="Online" value={kpi?.online_lamps ?? '-'} icon={Radio} color="#10B981" />
               <Metric label="Alerts" value={kpi?.unresolved_alerts ?? '-'} icon={Activity} color="#F59E0B" />
-              <Metric label="Avg Battery" value={kpi ? `${Math.round(kpi.avg_battery_level)}%` : '-'} icon={Activity} color="#8B5CF6" />
+              <Metric label="Avg Battery" value={kpi ? `${Math.round(kpi.avg_battery_level)}%` : '-'} icon={Activity} color="#7C3AED" />
             </div>
           </GlassCard>
 
           <GlassCard className="p-5 md:p-6">
             <div className="flex items-center gap-2 mb-5">
-              <Send className="w-5 h-5 text-neon-amber" style={{ color: '#F59E0B' }} />
-              <h3 className="heading-section text-lg text-text-primary">Telemetry Simulator</h3>
+              <Send className="w-5 h-5 text-[#F59E0B]" />
+              <h3 className="font-semibold text-lg text-[#0F172A]">Telemetry Simulator</h3>
             </div>
             <div className="space-y-3">
               <Input className="w-full" value={lampCode} onChange={(event) => setLampCode(event.target.value)} />
-              <Button variant="outline" className="w-full text-neon-amber border-neon-amber/40 hover:bg-neon-amber/10 hover:text-neon-amber" onClick={pushTelemetry} disabled={busy}>
+              <Button variant="outline" className="w-full text-[#F59E0B] border-[#F59E0B]/40 hover:bg-[#FFFBEB]" onClick={pushTelemetry} disabled={busy}>
                 Send Sample Telemetry
               </Button>
-              <div className="min-h-6 text-xs text-text-muted">{message}</div>
+              <div className="min-h-6 text-xs text-[#64748B]">{message}</div>
             </div>
           </GlassCard>
         </div>
@@ -166,10 +161,10 @@ export default function OperationsPanel() {
 
 function Metric({ icon: Icon, label, value, color }) {
   return (
-    <div className="rounded-md border border-border bg-surface p-3">
+    <div className="rounded-md border border-[#E2E8F0] bg-[#F8FAFC] p-3">
       <div className="mb-2 flex items-center gap-2">
         <Icon className="h-4 w-4" style={{ color }} />
-        <span className="text-xs text-text-muted">{label}</span>
+        <span className="text-xs text-[#64748B]">{label}</span>
       </div>
       <div className="heading-display text-xl" style={{ color }}>{value}</div>
     </div>

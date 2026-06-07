@@ -2,8 +2,8 @@ import { motion } from 'framer-motion';
 
 export default function GradientText({
   children,
-  from = '#00D4FF',
-  to = '#00FF88',
+  from = '#2563EB',
+  to = '#60A5FA',
   animate = false,
   className = '',
 }) {
@@ -24,7 +24,7 @@ export default function GradientText({
           backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
         }}
         transition={{
-          duration: 4,
+          duration: 6,
           repeat: Infinity,
           ease: 'easeInOut',
         }}

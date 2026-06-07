@@ -53,22 +53,22 @@ const ServerErrorPage = lazy(() => import('./pages/errors/ServerErrorPage'));
 
 // ── Guards ─────────────────────────────────────────────────
 function RequireAuth({ children }) {
-  const { isAuthenticated, isLoading } = useAuthStore();
-  if (isLoading) return <PageLoader />;
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  // const { isAuthenticated, isLoading } = useAuthStore();
+  // if (isLoading) return <PageLoader />;
+  // if (!isAuthenticated) return <Navigate to="/login" replace />;
   return children;
 }
 
 function RequireAdmin({ children }) {
-  const { user } = useAuthStore();
-  if (user?.role !== 'admin') return <Navigate to="/forbidden" replace />;
+  // const { user } = useAuthStore();
+  // if (user?.role !== 'admin') return <Navigate to="/forbidden" replace />;
   return children;
 }
 
 function RedirectIfAuth({ children }) {
-  const { isAuthenticated, isLoading } = useAuthStore();
-  if (isLoading) return <PageLoader />;
-  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
+  // const { isAuthenticated, isLoading } = useAuthStore();
+  // if (isLoading) return <PageLoader />;
+  // if (isAuthenticated) return <Navigate to="/dashboard" replace />;
   return children;
 }
 

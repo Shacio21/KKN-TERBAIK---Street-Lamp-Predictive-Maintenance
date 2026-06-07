@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { Sun, Thermometer, Activity, Wind } from 'lucide-react';
 import GlassCard from '../ui/GlassCard';
-import GradientText from '../ui/GradientText';
 import { sensorTimeSeriesData, sensorCards } from '../../data/mockData';
 
 const iconMap = { Sun, Thermometer, Activity, Wind };
@@ -25,7 +24,7 @@ function MiniLineChart({ data, color, height = 60 }) {
       {/* Gradient fill */}
       <defs>
         <linearGradient id={`grad-${color.replace('#', '')}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.3" />
+          <stop offset="0%" stopColor={color} stopOpacity="0.15" />
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
@@ -41,7 +40,6 @@ function MiniLineChart({ data, color, height = 60 }) {
         strokeLinecap="round"
         strokeLinejoin="round"
         className="chart-line"
-        style={{ filter: `drop-shadow(0 0 4px ${color}60)` }}
       />
       {/* Data dots */}
       {data.map((v, i) => {
@@ -55,7 +53,6 @@ function MiniLineChart({ data, color, height = 60 }) {
             r="3"
             fill={color}
             opacity="0.8"
-            style={{ filter: `drop-shadow(0 0 3px ${color})` }}
           />
         );
       })}
@@ -74,19 +71,19 @@ function SensorCard({ label, value, unit, change, icon, color }) {
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
             style={{
-              background: `${color}15`,
+              background: `${color}12`,
               border: `1px solid ${color}25`,
             }}
           >
             <Icon className="w-4 h-4" style={{ color }} />
           </div>
-          <span className="text-text-secondary text-xs font-medium">{label}</span>
+          <span className="text-[#475569] text-xs font-medium">{label}</span>
         </div>
         <span
           className="text-[10px] px-2 py-0.5 rounded-full font-medium"
           style={{
-            background: isPositive ? 'rgba(0,255,136,0.1)' : 'rgba(239,68,68,0.1)',
-            color: isPositive ? '#00FF88' : '#EF4444',
+            background: isPositive ? '#F0FDF4' : '#FEF2F2',
+            color: isPositive ? '#10B981' : '#EF4444',
           }}
         >
           {change}
@@ -94,7 +91,7 @@ function SensorCard({ label, value, unit, change, icon, color }) {
       </div>
       <div className="flex items-baseline gap-1">
         <span className="heading-display text-2xl" style={{ color }}>{value}</span>
-        <span className="text-text-muted text-xs">{unit}</span>
+        <span className="text-[#64748B] text-xs">{unit}</span>
       </div>
     </GlassCard>
   );
@@ -102,7 +99,7 @@ function SensorCard({ label, value, unit, change, icon, color }) {
 
 export default function SensorAnalyticsSection() {
   return (
-    <section className="relative section-padding bg-gradient-section overflow-hidden">
+    <section className="relative section-padding bg-[#F8FAFC] overflow-hidden">
       <div className="section-container relative z-10">
         {/* Header */}
         <motion.div
@@ -112,17 +109,14 @@ export default function SensorAnalyticsSection() {
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.7 }}
         >
-          <span className="text-neon-purple text-xs font-semibold tracking-[0.3em] uppercase mb-4 block font-[family-name:var(--font-display)]"
-            style={{ color: '#8B5CF6' }}>
+          <span className="text-[#7C3AED] text-xs font-semibold tracking-[0.2em] uppercase mb-4 block">
             Sensor Analytics
           </span>
-          <h2 className="heading-section text-3xl md:text-5xl mb-6">
-            <GradientText from="#8B5CF6" to="#00D4FF">
-              Environmental Intelligence
-            </GradientText>
+          <h2 className="heading-section text-3xl md:text-5xl mb-6 text-[#0F172A]">
+            Sensor Data & Analytics
           </h2>
-          <p className="text-text-secondary text-base md:text-lg">
-            Multi-sensor fusion provides comprehensive environmental data,
+          <p className="text-[#475569] text-base md:text-lg">
+            Multi-sensor data provides comprehensive environmental monitoring,
             enabling predictive maintenance and adaptive lighting control.
           </p>
         </motion.div>
@@ -145,7 +139,7 @@ export default function SensorAnalyticsSection() {
           {[
             { title: 'Light Intensity (24h)', data: sensorTimeSeriesData.lightSensor, color: '#F59E0B', unit: 'lux' },
             { title: 'Temperature (24h)', data: sensorTimeSeriesData.temperature, color: '#EF4444', unit: '°C' },
-            { title: 'Motion Events (24h)', data: sensorTimeSeriesData.motion, color: '#8B5CF6', unit: 'events' },
+            { title: 'Motion Events (24h)', data: sensorTimeSeriesData.motion, color: '#7C3AED', unit: 'events' },
           ].map((chart, i) => (
             <motion.div
               key={chart.title}
@@ -156,13 +150,13 @@ export default function SensorAnalyticsSection() {
             >
               <GlassCard className="p-5">
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-text-primary text-sm font-medium">{chart.title}</h4>
-                  <span className="text-text-muted text-[10px]">{chart.unit}</span>
+                  <h4 className="text-[#0F172A] text-sm font-medium">{chart.title}</h4>
+                  <span className="text-[#64748B] text-[10px]">{chart.unit}</span>
                 </div>
                 <MiniLineChart data={chart.data} color={chart.color} height={80} />
                 <div className="flex justify-between mt-2">
                   {sensorTimeSeriesData.labels.map((label, idx) => (
-                    <span key={idx} className="text-text-muted text-[9px]">{label}</span>
+                    <span key={idx} className="text-[#94A3B8] text-[9px]">{label}</span>
                   ))}
                 </div>
               </GlassCard>

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Wifi, Cloud, Radio } from 'lucide-react';
 import GlassCard from '../ui/GlassCard';
-import GradientText from '../ui/GradientText';
 import { iotGauges, connectionStatus } from '../../data/mockData';
 
 function AnimatedGauge({ value, max, color, label, unit }) {
@@ -21,7 +20,7 @@ function AnimatedGauge({ value, max, color, label, unit }) {
       <div className="relative w-28 h-28 md:w-32 md:h-32">
         <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
           {/* Background track */}
-          <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="6" />
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#E2E8F0" strokeWidth="6" />
           {/* Animated arc */}
           <circle
             cx="50"
@@ -35,19 +34,18 @@ function AnimatedGauge({ value, max, color, label, unit }) {
             strokeDashoffset={strokeDashoffset}
             style={{
               transition: 'stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1)',
-              filter: `drop-shadow(0 0 6px ${color}60)`,
             }}
           />
         </svg>
         {/* Center value */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="heading-display text-xl md:text-2xl text-text-primary">
+          <span className="heading-display text-xl md:text-2xl text-[#0F172A]">
             {current}
           </span>
-          <span className="text-text-muted text-xs">{unit}</span>
+          <span className="text-[#64748B] text-xs">{unit}</span>
         </div>
       </div>
-      <span className="text-text-secondary text-xs mt-2 text-center">{label}</span>
+      <span className="text-[#475569] text-xs mt-2 text-center">{label}</span>
     </div>
   );
 }
@@ -63,21 +61,18 @@ function ConnectionCard({ icon: Icon, name, status }) {
   }, []);
 
   return (
-    <div className="flex items-center gap-3 p-3 rounded-xl" style={{
-      background: 'rgba(255,255,255,0.03)',
-      border: '1px solid rgba(255,255,255,0.06)',
-    }}>
+    <div className="flex items-center gap-3 p-3 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0]">
       <div className="relative">
-        <Icon className="w-5 h-5 text-neon-green" />
+        <Icon className="w-5 h-5 text-[#10B981]" />
         {status.connected && (
-          <span className={`absolute -top-1 -right-1 w-2 h-2 rounded-full bg-neon-green transition-opacity duration-500 ${pulse ? 'opacity-100' : 'opacity-40'}`} />
+          <span className={`absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#10B981] transition-opacity duration-500 ${pulse ? 'opacity-100' : 'opacity-40'}`} />
         )}
       </div>
       <div className="flex-1">
-        <span className="text-text-primary text-xs font-medium">{name}</span>
+        <span className="text-[#0F172A] text-xs font-medium">{name}</span>
         <div className="flex items-center gap-2">
           <span className={`status-dot ${status.connected ? 'online' : 'offline'}`} />
-          <span className="text-text-muted text-[10px]">
+          <span className="text-[#64748B] text-[10px]">
             {status.connected ? (status.latency ? `${status.latency}ms` : status.signal ? `${status.signal}%` : status.lastSync) : 'Offline'}
           </span>
         </div>
@@ -88,14 +83,7 @@ function ConnectionCard({ icon: Icon, name, status }) {
 
 export default function IoTMonitoringSection() {
   return (
-    <section id="monitoring" className="relative section-padding bg-bg-primary overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0">
-        <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-10 blur-3xl"
-          style={{ background: 'radial-gradient(circle, rgba(0,255,136,0.3) 0%, transparent 70%)' }}
-        />
-      </div>
-
+    <section id="monitoring" className="relative section-padding bg-white overflow-hidden">
       <div className="section-container relative z-10">
         {/* Header */}
         <motion.div
@@ -105,17 +93,15 @@ export default function IoTMonitoringSection() {
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.7 }}
         >
-          <span className="text-neon-blue text-xs font-semibold tracking-[0.3em] uppercase mb-4 block font-[family-name:var(--font-display)]">
+          <span className="text-[#2563EB] text-xs font-semibold tracking-[0.2em] uppercase mb-4 block">
             IoT Monitoring
           </span>
-          <h2 className="heading-section text-3xl md:text-5xl mb-6">
-            <GradientText from="#E2E8F0" to="#00D4FF">
-              Real-Time Intelligence
-            </GradientText>
+          <h2 className="heading-section text-3xl md:text-5xl mb-6 text-[#0F172A]">
+            Street Lamp Monitoring
           </h2>
-          <p className="text-text-secondary text-base md:text-lg">
+          <p className="text-[#475569] text-base md:text-lg">
             Monitor every aspect of your street lamp network with live telemetry data,
-            intelligent alerts, and cloud-connected dashboards.
+            status alerts, and cloud-connected dashboards.
           </p>
         </motion.div>
 
@@ -129,7 +115,7 @@ export default function IoTMonitoringSection() {
             transition={{ duration: 0.6 }}
           >
             <GlassCard className="p-6 md:p-8">
-              <h3 className="heading-section text-lg text-text-primary mb-6">
+              <h3 className="font-semibold text-lg text-[#0F172A] mb-6">
                 System Telemetry
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -139,15 +125,15 @@ export default function IoTMonitoringSection() {
               </div>
 
               {/* Bottom stats bar */}
-              <div className="mt-6 pt-4 border-t border-border grid grid-cols-3 gap-4">
+              <div className="mt-6 pt-4 border-t border-[#E2E8F0] grid grid-cols-3 gap-4">
                 {[
-                  { label: 'Packets Sent', value: '12.4K', color: '#00D4FF' },
-                  { label: 'Uptime', value: '99.97%', color: '#00FF88' },
-                  { label: 'Alerts', value: '0', color: '#00FF88' },
+                  { label: 'Packets Sent', value: '12.4K', color: '#2563EB' },
+                  { label: 'Uptime', value: '99.97%', color: '#10B981' },
+                  { label: 'Alerts', value: '0', color: '#10B981' },
                 ].map((s) => (
                   <div key={s.label} className="text-center">
                     <span className="heading-display text-lg block" style={{ color: s.color }}>{s.value}</span>
-                    <span className="text-text-muted text-xs">{s.label}</span>
+                    <span className="text-[#64748B] text-xs">{s.label}</span>
                   </div>
                 ))}
               </div>
@@ -162,7 +148,7 @@ export default function IoTMonitoringSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <GlassCard className="p-6 h-full">
-              <h3 className="heading-section text-lg text-text-primary mb-6">
+              <h3 className="font-semibold text-lg text-[#0F172A] mb-6">
                 Connectivity
               </h3>
               <div className="space-y-3">
@@ -172,8 +158,8 @@ export default function IoTMonitoringSection() {
               </div>
 
               {/* Signal visualization */}
-              <div className="mt-6 pt-4 border-t border-border">
-                <span className="text-text-muted text-xs mb-3 block">Signal Strength</span>
+              <div className="mt-6 pt-4 border-t border-[#E2E8F0]">
+                <span className="text-[#64748B] text-xs mb-3 block">Signal Strength</span>
                 <div className="flex items-end gap-1 h-12">
                   {Array.from({ length: 20 }).map((_, i) => {
                     const height = 20 + Math.sin(i * 0.5) * 15 + Math.random() * 10;
@@ -181,7 +167,7 @@ export default function IoTMonitoringSection() {
                       <motion.div
                         key={i}
                         className="flex-1 rounded-sm"
-                        style={{ background: '#00D4FF', opacity: 0.3 + (i / 20) * 0.7 }}
+                        style={{ background: '#2563EB', opacity: 0.2 + (i / 20) * 0.6 }}
                         initial={{ height: 0 }}
                         whileInView={{ height: `${height}%` }}
                         viewport={{ once: true }}
