@@ -32,29 +32,39 @@ const variants = {
   },
 };
 
-export default function NeonButton({ children, variant = 'blue', size = 'md', onClick, className = '', ...props }) {
+const sizePadding = {
+  sm: { paddingLeft: '1rem',    paddingRight: '1rem',    paddingTop: '0.5rem',   paddingBottom: '0.5rem'  },
+  md: { paddingLeft: '1.5rem',  paddingRight: '1.5rem',  paddingTop: '0.625rem', paddingBottom: '0.625rem'},
+  lg: { paddingLeft: '2rem',    paddingRight: '2rem',    paddingTop: '0.75rem',  paddingBottom: '0.75rem' },
+};
+
+const sizeFontSize = {
+  sm: '0.875rem',
+  md: '1rem',
+  lg: '1rem',
+};
+
+export default function NeonButton({
+  children,
+  variant = 'blue',
+  size = 'md',
+  onClick,
+  className = '',
+  ...props
+}) {
   const v = variants[variant] || variants.blue;
-  const sizeClasses = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-2.5 text-base',
-    lg: 'px-8 py-3 text-base',
-  };
 
   return (
     <motion.button
       onClick={onClick}
-      className={`
-        relative font-semibold tracking-wide
-        rounded-[var(--radius-button)] cursor-pointer
-        transition-all duration-200 ease-out
-        ${sizeClasses[size]}
-        ${className}
-      `}
+      className={`relative font-semibold tracking-wide rounded-[var(--radius-button)] cursor-pointer transition-all duration-200 ease-out ${className}`}
       style={{
         background: v.bg,
         border: v.border || 'none',
         boxShadow: v.shadow,
         color: v.text,
+        fontSize: sizeFontSize[size],
+        ...sizePadding[size],
       }}
       whileHover={{
         scale: 1.02,

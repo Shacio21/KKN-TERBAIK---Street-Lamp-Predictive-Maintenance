@@ -32,7 +32,11 @@ export default function Navbar() {
     >
       <div className="section-container flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2.5 group" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+        <a
+          href="#"
+          className="flex items-center gap-2.5 group"
+          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+        >
           <div className="w-9 h-9 rounded-lg bg-[#2563EB] flex items-center justify-center">
             <Lamp className="w-5 h-5 text-white" />
           </div>
@@ -63,7 +67,13 @@ export default function Navbar() {
         {/* CTA */}
         <div className="hidden md:block">
           <button
-            className="px-5 py-2 text-sm font-semibold rounded-lg cursor-pointer transition-all duration-200 bg-[#2563EB] text-white hover:bg-[#1D4ED8] hover:shadow-md"
+            className="font-semibold rounded-lg cursor-pointer transition-all duration-200 bg-[#2563EB] text-white hover:bg-[#1D4ED8] hover:shadow-md text-sm"
+            style={{
+              paddingTop: '0.5rem',
+              paddingBottom: '0.5rem',
+              paddingLeft: '1.25rem',
+              paddingRight: '1.25rem',
+            }}
           >
             Open Dashboard
           </button>

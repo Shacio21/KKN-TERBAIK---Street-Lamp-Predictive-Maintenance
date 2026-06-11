@@ -116,10 +116,9 @@ export default function HeroSection() {
             />
           </div>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons — px-6 gives breathing room from screen edges on mobile */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-3 justify-center w-full"
-            initial={{ opacity: 0, y: 20 }}
+className="flex flex-col sm:flex-row gap-3 justify-center w-full px-6 sm:px-0 sm:w-auto"            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1 }}
           >
@@ -133,7 +132,7 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator - DIPINDAH KE SINI AGAR TIDAK TERTUMPUK */}
+      {/* Scroll indicator */}
       <motion.button
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-30"
         initial={{ opacity: 0 }}
